@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>../../../../../../Public/Pictures/Sample Pictures/Hydrangeas.jpg</file>
+    </qresource>
+</RCC>
