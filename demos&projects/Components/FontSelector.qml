@@ -3,7 +3,8 @@ import QtQuick.Controls 2.2
 
 Item {
     id : fontSelector;
-
+    height: 300;
+    width: 120;
     property string curSelectedFont: "";//当前选中的字体
 
     signal fontSelectChanged(string newFont);
@@ -14,9 +15,8 @@ Item {
 
     Tumbler {
         id:tumbler
-        implicitHeight: 300;
-        implicitWidth: 120;
-        anchors.centerIn : parent
+        height: fontSelector.height;
+        width: fontSelector.width;
         model: fontListModel
 
         // 列表背景
