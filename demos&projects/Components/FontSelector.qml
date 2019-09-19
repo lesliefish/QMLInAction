@@ -7,6 +7,7 @@ Item {
     width: 120;
     property string curSelectedFont: "";//当前选中的字体
 
+    // 自定义字体选择更改事件的信号
     signal fontSelectChanged(string newFont);
     //设置某字体，然后根据调整列表中当前选中项为当前字体
     function setFont(newFont){
