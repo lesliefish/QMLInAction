@@ -5,8 +5,8 @@ import QtQuick.Controls 1.2
 Window {
     id:mainWindow
     visible: true
-    width: 640
-    height: 480
+    width: 1024
+    height: 768
     title: qsTr("Components")
 
     Rectangle {
@@ -19,23 +19,31 @@ Window {
             text:qsTr("Choose Font");
 
             onClicked: {
-                fontSelector.visible = !fontSelector.visible;
+                //fontSelector.visible = !fontSelector.visible;
+                colorSelector.visible = !colorSelector.visible;
             }
         }
 
-        // 字体选择器
-        FontSelector { // 定义
+        ColorSelector{
             visible: false
-            id:fontSelector
+            id:colorSelector
             x:button.x + button.width;
-            y:button.y - fontSelector.height;
+            y:button.y - colorSelector.height;
         }
 
-        Connections{   // 字体选择器信号捕捉
-            target: fontSelector;
-            onFontSelectChanged:{
-                console.log(newFont)
-            }
-        }
+//        // 字体选择器
+//        FontSelector { // 定义
+//            visible: false
+//            id:fontSelector
+//            x:button.x + button.width;
+//            y:button.y - fontSelector.height;
+//        }
+
+//        Connections{   // 字体选择器信号捕捉
+//            target: fontSelector;
+//            onFontSelectChanged:{
+//                console.log(newFont)
+//            }
+//        }
     }
 }
