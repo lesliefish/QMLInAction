@@ -5,7 +5,10 @@ Item {
         id: control
         width: 300
         height: width
-        color: "black"
+        color: "transparent"
+
+        property int circleWidth: 30;//圆环宽度
+        property var curColor: undefined
 
         // 根据角度获取颜色值
         function getAngleColor(angle) {
@@ -60,19 +63,57 @@ Item {
         }
 
 
+        // 通过鼠标所在点更新Canvas画图信息
+        function updateCanvasByMousePos(x, y){
+             var currentAngle = control.getRotateAngle(x, y);
+             console.log(x, y, currentAngle);
+             updateCanvasByAngle(currentAngle);
+        }
+
+
+        //通过角度更新Canvas画图信息位置
+        function updateCanvasByAngle(angle){
+            var newX = control.width/2 +  - Math.cos(angle*Math.PI/180) * (control.width/2-control.circleWidth/2);
+            var newY = control.height/2 - Math.sin(angle* Math.PI/180) * (control.height/2-control.circleWidth/2);
+
+            console.log("new : ", newX, newY,"\ncur color is :" + control.curColor);
+            handle.xDrawPos = newX;
+            handle.yDrawPos = newY;
+            handle.requestPaint();
+
+            control.curColor='rgb('+control.getAngleColor(((angle+180)%360)/180 * Math.PI)+')'
+        }
+
         // 选择按钮
-        Rectangle {
+        Canvas {
             id:handle
-            width : 90;
+            width : parent.width;
             height : width
-            border.color: "black";
-            radius: width/2
-            opacity: 0.5
-            color: "darkred"
-            x:parent.x-25;
-            y:parent.height/2 - height/2
+
+            property int xDrawPos: 0
+            property int yDrawPos: 0
+
+            onPaint: {
+                var ctx = getContext("2d")
+                ctx.clearRect(0,0,width,height);
+                ctx.beginPath();
+                ctx.arc(xDrawPos, yDrawPos, control.circleWidth/2 + 10, 0, 2 * Math.PI, false);
+                ctx.fillStyle = 'lightblue';
+                ctx.fill();
+                ctx.strokeStyle = 'transparent';
+                ctx.stroke();
+                ctx.closePath();
+
+                ctx.beginPath();
+                ctx.arc(xDrawPos, yDrawPos, control.circleWidth/2 - 2, 0, 2 * Math.PI, false);
+                ctx.fillStyle = control.curColor;
+                ctx.fill();
+                ctx.strokeStyle = 'transparent';
+                ctx.stroke();
+                ctx.closePath();
+            }
+
             z:1000
-            anchors.margins: 1
         }
 
         // 圆环画布
@@ -106,8 +147,8 @@ Item {
                 ctx.save();
                 ctx.translate(0,0);
                 ctx.beginPath();
-                ctx.arc(0, 0, width/2-40, 0, 2 * Math.PI, false);
-                ctx.fillStyle = 'black';
+                ctx.arc(0, 0, width/2-control.circleWidth, 0, 2 * Math.PI, false);
+                ctx.fillStyle = 'white';
                 ctx.fill();
                 ctx.strokeStyle = 'transparent';
                 ctx.stroke();
@@ -115,21 +156,15 @@ Item {
             }
 
             MouseArea {
+                id:colorSelectorMouseArea
                 anchors.fill: parent;
                 onMouseXChanged: {
-                    console.log(mouseX, mouseY);
-
-                    var currentAngle = control.getRotateAngle(mouseX, mouseY);
-                    console.log(currentAngle);
-
-                    //半径上的点位置
-                    var newX = (Math.cos(currentAngle) * Math.PI/180) * control.width/2;
-                    var newY = (Math.sin(currentAngle) * Math.PI/180) * control.height/2;
-
-                    console.log(newX, newY);
-                    handle.x = newX;
-                    handle.y = newY;
+                    control.updateCanvasByMousePos(mouseX, mouseY);
                 }
+            }
+
+            Component.onCompleted:{
+                control.updateCanvasByAngle(0);
             }
         }
     }

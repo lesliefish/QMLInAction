@@ -16,7 +16,7 @@ Window {
             anchors.centerIn: parent
             width: 200;
             height: 36;
-            text:qsTr("Choose Font");
+            text:qsTr("Choose Font/Color");
 
             onClicked: {
                 //fontSelector.visible = !fontSelector.visible;
