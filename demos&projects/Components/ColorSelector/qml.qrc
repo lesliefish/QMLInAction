@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>FontSelector.qml</file>
         <file>ColorSelector.qml</file>
     </qresource>
 </RCC>

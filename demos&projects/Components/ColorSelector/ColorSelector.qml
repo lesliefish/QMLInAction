@@ -1,17 +1,21 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 Item {
+    id:baseItem
+    width: 350
+    height: width
+    signal colorChanged(string newColor);
+    property int circleWidth: 40;//圆环宽度
+    property var curColor: undefined;
+
     Rectangle {
         id: control
-        width: 300
+        width: baseItem.width
         height: width
         color: "transparent"
         border.width: 1
-        border.color: "red"
+        border.color: "black"
         anchors.margins: 10
-
-        property int circleWidth: 30;//圆环宽度
-        property var curColor: undefined
 
         // 根据角度获取颜色值
         function getAngleColor(angle) {
@@ -36,7 +40,7 @@ Item {
         }
 
         // 获取旋转角度
-       function getRotateAngle (mouseX, mouseY) {
+        function getRotateAngle (mouseX, mouseY) {
             var yPosOffset = mouseY - control.width/2;    // 计算角度 : tan(x) = (y2-y1)/(x2-x1);
             var xPosOffset = mouseX - control.height/2;
             // 旋转的弧度 hudu, 角度angle
@@ -68,26 +72,27 @@ Item {
 
         // 通过鼠标所在点更新Canvas画图信息
         function updateCanvasByMousePos(x, y){
-             var currentAngle = control.getRotateAngle(x, y);
-             console.log(x, y, currentAngle);
-             updateCanvasByAngle(currentAngle);
+            var currentAngle = control.getRotateAngle(x, y);
+            console.log(x, y, currentAngle);
+            updateCanvasByAngle(currentAngle);
         }
 
 
         //通过角度更新Canvas画图信息位置
         function updateCanvasByAngle(angle){
-            var newX = control.width/2 +  - Math.cos(angle*Math.PI/180) * (control.width/2-control.circleWidth/2-2*control.anchors.margins);
-            var newY = control.height/2 - Math.sin(angle* Math.PI/180) * (control.height/2-control.circleWidth/2-2*control.anchors.margins);
+            var newX = control.width/2 +  - Math.cos(angle*Math.PI/180) * (control.width/2-baseItem.circleWidth/2-2*control.anchors.margins);
+            var newY = control.height/2 - Math.sin(angle* Math.PI/180) * (control.height/2-baseItem.circleWidth/2-2*control.anchors.margins);
 
-            console.log("new : ", newX, newY,"\ncur color is :" + control.curColor);
+            console.log("new : ", newX, newY,"\ncur color is :" + baseItem.curColor);
             handle.xDrawPos = newX;
             handle.yDrawPos = newY;
             handle.requestPaint();
 
-            control.curColor='rgb('+control.getAngleColor(((angle+180)%360)/180 * Math.PI)+')'
+            baseItem.curColor='rgb('+control.getAngleColor(((angle+180)%360)/180 * Math.PI)+')';
+            baseItem.colorChanged(baseItem.curColor);//发信号
         }
 
-        // 选择按钮
+        // 鼠标选择圆环按钮
         Canvas {
             id:handle
             width : parent.width;
@@ -100,7 +105,7 @@ Item {
                 var ctx = getContext("2d")
                 ctx.clearRect(0,0,width,height);
                 ctx.beginPath();
-                ctx.arc(xDrawPos, yDrawPos, control.circleWidth/2 + 10, 0, 2 * Math.PI, false);
+                ctx.arc(xDrawPos, yDrawPos, baseItem.circleWidth/2 + 10, 0, 2 * Math.PI, false);
                 ctx.fillStyle = 'lightblue';
                 ctx.fill();
                 ctx.strokeStyle = 'transparent';
@@ -108,8 +113,8 @@ Item {
                 ctx.closePath();
 
                 ctx.beginPath();
-                ctx.arc(xDrawPos, yDrawPos, control.circleWidth/2 - 2, 0, 2 * Math.PI, false);
-                ctx.fillStyle = control.curColor;
+                ctx.arc(xDrawPos, yDrawPos, baseItem.circleWidth/2 - 2, 0, 2 * Math.PI, false);
+                ctx.fillStyle = baseItem.curColor;
                 ctx.fill();
                 ctx.strokeStyle = 'transparent';
                 ctx.stroke();
@@ -151,7 +156,7 @@ Item {
                 ctx.save();
                 ctx.translate(0,0);
                 ctx.beginPath();
-                ctx.arc(0, 0, width/2-control.circleWidth, 0, 2 * Math.PI, false);
+                ctx.arc(0, 0, width/2-baseItem.circleWidth, 0, 2 * Math.PI, false);
                 ctx.fillStyle = 'white';
                 ctx.fill();
                 ctx.strokeStyle = 'transparent';
