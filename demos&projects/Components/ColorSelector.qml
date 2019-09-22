@@ -6,6 +6,9 @@ Item {
         width: 300
         height: width
         color: "transparent"
+        border.width: 1
+        border.color: "red"
+        anchors.margins: 10
 
         property int circleWidth: 30;//圆环宽度
         property var curColor: undefined
@@ -73,8 +76,8 @@ Item {
 
         //通过角度更新Canvas画图信息位置
         function updateCanvasByAngle(angle){
-            var newX = control.width/2 +  - Math.cos(angle*Math.PI/180) * (control.width/2-control.circleWidth/2);
-            var newY = control.height/2 - Math.sin(angle* Math.PI/180) * (control.height/2-control.circleWidth/2);
+            var newX = control.width/2 +  - Math.cos(angle*Math.PI/180) * (control.width/2-control.circleWidth/2-2*control.anchors.margins);
+            var newY = control.height/2 - Math.sin(angle* Math.PI/180) * (control.height/2-control.circleWidth/2-2*control.anchors.margins);
 
             console.log("new : ", newX, newY,"\ncur color is :" + control.curColor);
             handle.xDrawPos = newX;
@@ -119,8 +122,9 @@ Item {
         // 圆环画布
         Canvas {
             id: canvas
-            width: parent.width;
+            width: parent.width-4*control.anchors.margins;
             height: parent.height
+            anchors.centerIn: parent
 
             onPaint: {
                 var ctx = getContext("2d")
@@ -130,7 +134,7 @@ Item {
                 for (var i = 0; i< iSectors; i++) {
                     var startAngle = 0;
                     var endAngle = startAngle + iSectorAngle;
-                    var radius = (width/2);
+                    var radius = (width/2-1);
                     var color = control.getAngleColor(iSectorAngle * i);
                     ctx.beginPath();
                     ctx.moveTo(0, 0);
