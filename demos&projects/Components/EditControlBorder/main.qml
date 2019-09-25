@@ -21,10 +21,10 @@ Window {
         scale: parent.scale;
         x: (parent.width - width) / 2;
         y: (parent.height - height) / 2;
-        text: "杭州欢迎你";
-        font.family: "STXingkai";
+        text: "lesliefish";
+        font.family: "microsoft yahei";
         color: "lightgreen";
-        font.pointSize: 72;
+        font.pointSize: 48;
         selectByMouse: true;
         selectedTextColor: "green";
         selectionColor: "lightblue";
