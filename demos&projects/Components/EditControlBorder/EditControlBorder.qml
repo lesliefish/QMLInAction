@@ -5,10 +5,12 @@ Item {
     width: 300
     height: 180
 
-    property int lineToLineSpace: 7;//虚线间隔
-    property int singleLineWidth: 6;//单个线宽度
-    property int singleLineHeight: 2;//单个线高度
+    property int lineToLineSpace: 2;//虚线间隔
+    property int singleLineWidth: 2;//单个线宽度
+    property int singleLineHeight: 1;//单个线高度
     property string lineColor: "#2985da";
+
+    signal signalRightDownDraged(int x, int y);
 
     Rectangle {
         id:control
@@ -16,23 +18,6 @@ Item {
         height: dottedLineItem.height;
         anchors.fill: parent;
         color: "transparent";
-//        PinchArea
-//        {
-//            anchors.fill: parent;
-//            pinch.target: dottedLineItem;
-//            pinch.maximumScale: 20
-//            pinch.minimumScale: 0.2
-//            pinch.minimumRotation: -180
-//            pinch.maximumRotation: 180;
-
-//            MouseArea {
-//                anchors.fill: parent;
-//                propagateComposedEvents: true
-//                drag.target: dottedLineItem;
-//                drag.axis: Drag.XAndYAxis;
-//            }
-//        }
-
 
         Canvas{
             id:canvas;
@@ -77,7 +62,7 @@ Item {
             id:selectedStateRect;
             Rectangle {
                 id:rect
-                width: 18;
+                width: 16;
                 height: width;
                 color: "#1673c1"
                 border.color: "white";
@@ -146,38 +131,40 @@ Item {
             onMouseChanged:{
                 dottedLineItem.height+=y;
                 dottedLineItem.width+=x;
+
+                dottedLineItem.signalRightDownDraged(x, y);
             }
         }
 
-        // 左下角拖拽事件
-        Connections{
-            target: leftDownItem.item;
-            onMouseChanged:{
-                dottedLineItem.x += x;
-                dottedLineItem.height+=y;
-                dottedLineItem.width-=x;
-            }
-        }
+//        // 左下角拖拽事件
+//        Connections{
+//            target: leftDownItem.item;
+//            onMouseChanged:{
+//                dottedLineItem.x += x;
+//                dottedLineItem.height+=y;
+//                dottedLineItem.width-=x;
+//            }
+//        }
 
-        // 左上角拖拽事件
-        Connections{
-            target: leftUpItem.item;
-            onMouseChanged:{
-                dottedLineItem.x += x;
-                dottedLineItem.width-=x;
-                dottedLineItem.y+=y;
-                dottedLineItem.height-=y;
-            }
-        }
+//        // 左上角拖拽事件
+//        Connections{
+//            target: leftUpItem.item;
+//            onMouseChanged:{
+//                dottedLineItem.x += x;
+//                dottedLineItem.width-=x;
+//                dottedLineItem.y+=y;
+//                dottedLineItem.height-=y;
+//            }
+//        }
 
-        // 右上角拖拽事件
-        Connections{
-            target: rightUpItem.item;
-            onMouseChanged:{
-                dottedLineItem.width+=x;
-                dottedLineItem.y+=y;
-                dottedLineItem.height-=y;
-            }
-        }
+//        // 右上角拖拽事件
+//        Connections{
+//            target: rightUpItem.item;
+//            onMouseChanged:{
+//                dottedLineItem.width+=x;
+//                dottedLineItem.y+=y;
+//                dottedLineItem.height-=y;
+//            }
+//        }
     }
 }
