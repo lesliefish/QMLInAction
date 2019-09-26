@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ItemDelegate.qml</file>
+        <file>MyButton.qml</file>
+    </qresource>
+</RCC>
