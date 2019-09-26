@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>EditControlBorder.qml</file>
+        <file>TextEditItem.qml</file>
     </qresource>
 </RCC>
