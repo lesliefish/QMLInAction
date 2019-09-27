@@ -5,8 +5,6 @@ import QtQuick.Controls 1.4
 Item {
     id:wrapper;
 
-    property bool checked: checkBox.checked;
-
     Rectangle {
         id:itemRect;
         color:"transparent";
@@ -71,7 +69,7 @@ Item {
                     border.color: control.activeFocus ? "darkblue" : "gray"
                     border.width: 1
                     Rectangle {
-                        visible: control.checked;
+                        visible: isChecked;
                         color: "red";
                         border.color: "#333";
                         radius: parent.width/2;
@@ -81,8 +79,8 @@ Item {
                 }
             }
 
-            onCheckedStateChanged: {
-                isChecked = checked;
+            onClicked: {
+                isChecked = checkBox.checked;
             }
         }
     }

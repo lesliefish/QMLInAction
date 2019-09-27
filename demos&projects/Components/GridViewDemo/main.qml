@@ -72,9 +72,7 @@ Window {
         function selectAll() {
             for( var i = 0;i < listModel.count; i++ ) {
                 var model = listModel.get(i);
-                if(!model.isChecked){
                     model.isChecked=true;
-                }
             }
         }
     }
