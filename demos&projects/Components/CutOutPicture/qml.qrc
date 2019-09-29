@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ControlBorder.qml</file>
+    </qresource>
+</RCC>
