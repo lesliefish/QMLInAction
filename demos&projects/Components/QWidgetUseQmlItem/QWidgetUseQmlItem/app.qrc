@@ -1,4 +1,8 @@
 <RCC>
-    <qresource prefix="Widget">
+    <qresource prefix="/Widget">
+        <file>qml/CancelButton.qml</file>
+        <file>qml/MyButton.qml</file>
+        <file>qml/OkButton.qml</file>
+        <file>qml/TitleChangedEdit.qml</file>
     </qresource>
 </RCC>

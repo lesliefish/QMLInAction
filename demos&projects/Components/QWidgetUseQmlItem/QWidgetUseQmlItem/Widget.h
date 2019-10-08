@@ -10,6 +10,12 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = Q_NULLPTR);
 
+private slots:
+
+void onOKButtonClicked();
+void onCancelButtonClicked();
+void onTitleChanged(const QString& title);
+
 private:
     Ui::WidgetClass ui;
 };
