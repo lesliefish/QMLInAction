@@ -155,12 +155,11 @@ Item {
 
                 ctx.save();
                 ctx.translate(0,0);
+                ctx.globalCompositeOperation = "destination-out"; // 中间透明
                 ctx.beginPath();
                 ctx.arc(0, 0, width/2-baseItem.circleWidth, 0, 2 * Math.PI, false);
                 ctx.fillStyle = 'white';
                 ctx.fill();
-                ctx.strokeStyle = 'transparent';
-                ctx.stroke();
                 ctx.restore();
             }
 
